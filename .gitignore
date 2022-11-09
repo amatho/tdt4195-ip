@@ -1,4 +1,5 @@
 __pycache__/
 data/
 image_solutions/
+image_processed/
 *.zip

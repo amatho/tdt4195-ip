@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 image_output_dir = pathlib.Path("image_processed")
 image_output_dir.mkdir(exist_ok=True, parents=True)
 
+
 def compute_loss_and_accuracy(dataloader, model, loss_function):
     """
     Computes the total loss and accuracy over the whole dataloader
@@ -79,7 +80,8 @@ def to_uint8(im):
     if im.min() >= 0.0 and im.max() <= 1.0:
         im = (im*255).astype(np.uint8)
         return im
-    warnings.warn("Image min/max is outside the range [0.0, 1.0]. Squashing the image to this range. (Can be safely ignored)")
+    warnings.warn(
+        "Image min/max is outside the range [0.0, 1.0]. Squashing the image to this range. (Can be safely ignored)")
     im = im - im.min()
     im = im / im.max()
     im = (im*255).astype(np.uint8)
@@ -127,7 +129,7 @@ def create_high_pass_frequency_kernel(im: np.array,
     assert len(im.shape) == 2,\
         "Expected a grayscale image. Got image shape: {}".format(im.shape)
     kernel = np.ones_like((im))
-    rr, cc = skimage.draw.disk((center_row, center_col), radius)
+    rr, cc = skimage.draw.circle(center_row, center_col, radius)
     kernel[rr, cc] = 0.0
     kernel = np.fft.fftshift(kernel)
     return kernel
@@ -208,7 +210,7 @@ def np_make_image_grid(images, nrow, pad=2):
     ncol = int(np.ceil(len(images) / nrow))
     ncolors = images[0].shape[-1]
     result_imshape = [nrow * (height + pad), ncol * (width + pad), ncolors]
-    if len(images[0].shape) == 2: # grayscale image
+    if len(images[0].shape) == 2:  # grayscale image
         ncolors = 1
         result_imshape[-1] = 1
     im_result = np.zeros(result_imshape, dtype=images[0].dtype)
