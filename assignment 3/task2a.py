@@ -7,7 +7,7 @@ import pathlib
 def otsu_thresholding(im: np.ndarray) -> int:
     """
         Otsu's thresholding algorithm that segments an image into 1 or 0 (True or False)
-        The function takes in a grayscale image and outputs a boolean image
+        The function takes in a grayscale image and outputs a threshold value
 
         args:
             im: np.ndarray of shape (H, W) in the range [0, 255] (dtype=np.uint8)
